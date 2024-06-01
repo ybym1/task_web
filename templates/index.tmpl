@@ -1,5 +1,12 @@
-<html>
-	<h1>
-		{{ .title }}
-	</h1>
-</html>
+{{template "header.tmpl" .}}
+
+<div class="container mx-auto my-12 text-center">
+    <h1 class="text-3xl font-bold text-gray-700 mb-8">タスク管理ツールへようこそ</h1>
+    <p class="text-lg text-gray-600 mb-8">効率的にタスクを管理し、あなたの生産性を最大化しましょう。</p>
+    <div class="flex justify-center space-x-4">
+        <a href="/login" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">ログイン</a>
+        <a href="/signup" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">サインアップ</a>
+    </div>
+</div>
+
+{{template "footer.tmpl" .}}
