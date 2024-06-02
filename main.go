@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	db.Instance().AutoMigrate(&models.Dummy{})
+	db.Instance().AutoMigrate(&models.Dummy{}, &models.User{}, &models.Session{})
 
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
