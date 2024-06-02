@@ -15,5 +15,6 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/", controllers.ShowIndexPage)
 	r.GET("/signup", controllers.ShowSignUpPage)
+	r.POST("/signup", controllers.PerformSignUp)
 	r.Run()
 }
