@@ -36,3 +36,16 @@ func FindUserByEmail(email string) (*User, error) {
 
 	return existsUser, nil
 }
+
+func FindUserByID(id uint) (*User, error) {
+	var existsUser *User
+	if err := db.Instance().Where("id = ?", id).First(&existsUser).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		} else {
+			return nil, err
+		}
+	}
+
+	return existsUser, nil
+}

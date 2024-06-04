@@ -7,5 +7,6 @@ import (
 )
 
 func ShowIndexPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{"Title": "ホーム"})
+	user, _ := c.Get("user")
+	c.HTML(http.StatusOK, "index.tmpl", gin.H{"Title": "ホーム", "User": user})
 }
