@@ -16,5 +16,7 @@ func main() {
 	r.GET("/", controllers.ShowIndexPage)
 	r.GET("/signup", controllers.ShowSignUpPage)
 	r.POST("/signup", controllers.PerformSignUp)
+	r.GET("/login", controllers.ShowLoginPage)
+	r.POST("/login", controllers.PerformLogin)
 	r.Run()
 }

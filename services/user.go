@@ -42,3 +42,28 @@ func SignUp(email, password string) (string, error) {
 
 	return sessionID, nil
 }
+
+func Login(email, password string) (string, error) {
+	existsUser, err := models.FindUserByEmail(email)
+	if err != nil {
+		return "", err
+	}
+	if existsUser == nil {
+		return "", errors.New("emailかpasswordが間違っています")
+	}
+
+	// CompareHashAndPasswordはパスワードが一致しない場合はerrが返される
+	if err := bcrypt.CompareHashAndPassword([]byte(existsUser.Password), []byte(password)); err != nil {
+		return "", errors.New("emailかpasswordが間違っています")
+	}
+
+	sessionID := uuid.NewString()
+	if err := db.Instance().Transaction(func(tx *gorm.DB) error {
+		// セッションをDBに保存
+		return models.CreateSession(tx, existsUser.ID, sessionID)
+	}); err != nil {
+		return "", err
+	}
+
+	return sessionID, nil
+}
