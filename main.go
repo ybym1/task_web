@@ -16,6 +16,7 @@ func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 	r.Use(entry)
+	r.GET("/500", controllers.Show500Page)
 	r.GET("/", controllers.ShowIndexPage)
 	r.GET("/signup", controllers.ShowSignUpPage)
 	r.POST("/signup", controllers.PerformSignUp)
@@ -25,13 +26,26 @@ func main() {
 }
 
 func entry(c *gin.Context) {
+	// 無限エラーループ防止のため500ページ表示時は極力何もしない
+	if c.Request.URL.Path == "/500" {
+		c.Next()
+		return
+	}
+
 	if err := setupSession(c); err != nil {
+		// セッション処理中にエラーがあれば500ページにリダイレクトする
+		c.Error(err)
 		c.Abort()
-		c.String(http.StatusInternalServerError, err.Error())
+		c.Redirect(http.StatusFound, "/500")
 		return
 	}
 
 	c.Next()
+
+	// controller以下の処理中にエラーがあれば500ページにリダイレクトする
+	if len(c.Errors) > 0 {
+		c.Redirect(http.StatusFound, "/500")
+	}
 }
 
 func setupSession(c *gin.Context) error {
