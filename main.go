@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	db.Instance().AutoMigrate(&models.Dummy{}, &models.User{}, &models.Session{})
+	db.Instance().AutoMigrate(&models.Dummy{}, &models.User{}, &models.Session{}, &models.Task{})
 
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
@@ -24,6 +24,7 @@ func main() {
 	r.POST("/login", controllers.PerformLogin)
 	r.POST("/logout", requireLogin, controllers.PerformLogout)
 
+	r.GET("/tasks", requireLogin, controllers.ShowTaskPage)
 	r.Run()
 }
 

@@ -7,7 +7,11 @@ import (
 )
 
 func ShowIndexPage(c *gin.Context) {
-	user, _ := c.Get("user")
+	user, ok := c.Get("user")
+	if ok {
+		c.Redirect(http.StatusFound, "/tasks")
+		return
+	}
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{"Title": "ホーム", "User": user})
 }
 
