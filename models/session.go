@@ -31,3 +31,7 @@ func FindSessionByToken(token string) (*Session, error) {
 
 	return existsSession, nil
 }
+
+func DeleteSession(token string) error {
+	return db.Instance().Where("token = ?", token).Delete(&Session{}).Error
+}

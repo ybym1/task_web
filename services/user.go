@@ -67,3 +67,7 @@ func Login(email, password string) (string, error) {
 
 	return sessionID, nil
 }
+
+func DeleteSession(token string) error {
+	return models.DeleteSession(token)
+}

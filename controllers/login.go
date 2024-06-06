@@ -67,3 +67,15 @@ func PerformLogin(c *gin.Context) {
 	c.SetCookie("session_id", sessionID, 3600, "/", "", true, true)
 	c.Redirect(http.StatusFound, "/")
 }
+
+func PerformLogout(c *gin.Context) {
+	cookie, err := c.Cookie("session_id")
+	if err != nil && err != http.ErrNoCookie {
+		c.Error(err)
+		return
+	}
+
+	services.DeleteSession(cookie)
+	c.SetCookie("session_id", "", -1, "/", "", true, true)
+	c.Redirect(http.StatusFound, "/login")
+}

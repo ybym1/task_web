@@ -22,6 +22,8 @@ func main() {
 	r.POST("/signup", controllers.PerformSignUp)
 	r.GET("/login", controllers.ShowLoginPage)
 	r.POST("/login", controllers.PerformLogin)
+	r.POST("/logout", requireLogin, controllers.PerformLogout)
+
 	r.Run()
 }
 
@@ -73,4 +75,15 @@ func setupSession(c *gin.Context) error {
 	}
 	c.Set("user", user)
 	return nil
+}
+
+func requireLogin(c *gin.Context) {
+	_, isLogined := c.Get("user")
+
+	if !isLogined {
+		c.Redirect(http.StatusFound, "/login")
+		c.Abort()
+		return
+	}
+	c.Next()
 }
