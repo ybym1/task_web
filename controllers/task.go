@@ -23,3 +23,12 @@ func ShowTaskPage(c *gin.Context) {
 		"User":  user,
 	})
 }
+
+func ShowNewTaskPage(c *gin.Context) {
+	user := c.MustGet("user").(*models.User)
+
+	c.HTML(http.StatusOK, "new_task.tmpl", gin.H{
+		"Title": "新しいタスクを作成",
+		"User":  user,
+	})
+}

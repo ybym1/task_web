@@ -25,6 +25,7 @@ func main() {
 	r.POST("/logout", requireLogin, controllers.PerformLogout)
 
 	r.GET("/tasks", requireLogin, controllers.ShowTaskPage)
+	r.GET("/tasks/new", requireLogin, controllers.ShowNewTaskPage)
 	r.Run()
 }
 
