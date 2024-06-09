@@ -38,3 +38,18 @@ func UpdateTask(id uint, userID uint, title string, description string) error {
 		return models.UpdateTask(tx, task)
 	})
 }
+
+func DeleteTask(id uint, userID uint) error {
+	task, err := models.FindTask(id)
+	if err != nil {
+		return err
+	}
+
+	if task.UserID != userID {
+		return errors.New("このタスクを編集する権限がありません")
+	}
+
+	return db.Instance().Transaction(func(tx *gorm.DB) error {
+		return models.DeleteTask(tx, id)
+	})
+}

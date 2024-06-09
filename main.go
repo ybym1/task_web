@@ -29,6 +29,7 @@ func main() {
 	r.POST("/tasks/new", requireLogin, controllers.CreateTask)
 	r.GET("/tasks/:id/edit", requireLogin, controllers.ShowEditTaskPage)
 	r.POST("/tasks/:id/edit", requireLogin, controllers.UpdateTask)
+	r.POST("/tasks/:id/delete", requireLogin, controllers.DeleteTask)
 	r.Run()
 }
 

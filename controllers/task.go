@@ -110,3 +110,19 @@ func UpdateTask(c *gin.Context) {
 
 	c.Redirect(http.StatusFound, "/tasks")
 }
+
+func DeleteTask(c *gin.Context) {
+	user := c.MustGet("user").(*models.User)
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	if err := services.DeleteTask(uint(id), user.ID); err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.Redirect(http.StatusFound, "/tasks")
+}
