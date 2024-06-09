@@ -38,3 +38,7 @@ func CreateTask(tx *gorm.DB, userID uint, title, description string) error {
 		Description: description,
 	}).Error
 }
+
+func UpdateTask(tx *gorm.DB, task *Task) error {
+	return tx.Save(&task).Error
+}
