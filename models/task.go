@@ -21,3 +21,11 @@ func FindTasksByUserID(userID uint) ([]*Task, error) {
 
 	return tasks, nil
 }
+
+func CreateTask(tx *gorm.DB, userID uint, title, description string) error {
+	return tx.Create(&Task{
+		UserID:      userID,
+		Title:       title,
+		Description: description,
+	}).Error
+}
