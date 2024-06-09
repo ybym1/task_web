@@ -7,6 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
+func GetTask(id uint) (*models.Task, error) {
+	return models.FindTask(id)
+}
+
 func GetTasksByUserID(userID uint) ([]*models.Task, error) {
 	return models.FindTasksByUserID(userID)
 }

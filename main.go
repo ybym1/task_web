@@ -27,6 +27,7 @@ func main() {
 	r.GET("/tasks", requireLogin, controllers.ShowTaskPage)
 	r.GET("/tasks/new", requireLogin, controllers.ShowNewTaskPage)
 	r.POST("/tasks/new", requireLogin, controllers.CreateTask)
+	r.GET("/tasks/:id/edit", requireLogin, controllers.ShowEditTaskPage)
 	r.Run()
 }
 

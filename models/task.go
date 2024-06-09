@@ -13,6 +13,15 @@ type Task struct {
 	UserID      uint   `gorm:"not null"`
 }
 
+func FindTask(id uint) (*Task, error) {
+	var task *Task
+	if err := db.Instance().First(&task, id).Error; err != nil {
+		return nil, err
+	}
+
+	return task, nil
+}
+
 func FindTasksByUserID(userID uint) ([]*Task, error) {
 	var tasks []*Task
 	if err := db.Instance().Where("user_id = ?", userID).Find(&tasks).Error; err != nil {

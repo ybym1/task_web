@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 	"task_web_app/models"
 	"task_web_app/services"
 
@@ -56,4 +57,25 @@ func CreateTask(c *gin.Context) {
 	}
 
 	c.Redirect(http.StatusFound, "/tasks")
+}
+
+func ShowEditTaskPage(c *gin.Context) {
+	user := c.MustGet("user").(*models.User)
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	task, err := services.GetTask(uint(id))
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.HTML(http.StatusOK, "edit_task.tmpl", gin.H{
+		"Title": "タスクを編集",
+		"Task":  task,
+		"User":  user,
+	})
 }
